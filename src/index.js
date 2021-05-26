@@ -1,25 +1,30 @@
 exports.handler = async (event, context, callback) => {
+
     const channels = ['C0231DPGQ2W'];
-    const isValidatedChannel = channels.includes(event.event.channel) && event.event.channel_type === 'channel';
+    const channelId = event.event.channel;
+    const isValidatedChannel = channels.includes(channelId) && event.event.channel_type === 'channel';
     const urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/; //https://regexr.com/39nr7
     const containsUrl = (text) => urlRegex.test(text);
+    const containsCategory = (arr) => arr.length == 3;
+    const inputText = event.event.text;
+    const inputArray = inputText.split(", ");
 
     if (isValidatedChannel) {
-        const inputText = event.event.text;
-        if (containsUrl(inputText)) {
-            const [title, categories, url] = inputText.split(", ")
-            const hasCategories = categories ? categories : ""
+        if (containsUrl(inputText) && containsCategory(inputArray)) {
+        const [title, categories, url] = inputArray
+        const esPayload = JSON.stringify({
+            "title": title,
+            "categories": categories.split("/"),
+            "url": url
+        })
+        console.log("ES PAYLOAD", esPayload);
+        // asynchronously send data to ES
 
-            const esPayload = JSON.stringify({
-                "title": title,
-                "categories": hasCategories.split("/"),
-                "url": url
-            })
-            console.log("ES PAYLOAD", esPayload);
-            // asynchronously send data to ES
         } else {
-            console.log(`Message with id: ${event.event.client_msg_id} does not contain a url`);
+            console.log(`Message with id: ${event.event.client_msg_id} does not contain a url or category`);
         }
+    } else {
+        console.log(`Channel with id: ${channelId} is not a valid channel`);
     }
 
     const response = {
@@ -27,5 +32,3 @@ exports.handler = async (event, context, callback) => {
     };
     return response;
 };
-
-//TODO: bug when there is no category passed
