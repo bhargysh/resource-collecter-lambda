@@ -5,7 +5,7 @@
     "event": {
         "client_msg_id": "1dff81b6-e5f0-44f5-933b-83eec88b645b",
         "type": "message",
-        "text": "Testing testing second timeeeeee",
+        "text": "Intro to Haskell, fp/language, https://marcosampellegrini.com/simple-haskell-book",
         "user": "U0237JECGGL",
         "ts": "1621993931.001000",
         "team": "T023R7SMT9N",
