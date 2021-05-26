@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-elasticsearch-service": "^3.17.0"
+  }
+}

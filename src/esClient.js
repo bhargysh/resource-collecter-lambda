@@ -1,27 +1,18 @@
-const AWS = require("aws-sdk");
-AWS.config.region = "ap-southeast-2";
-const elasticsearch = require("elasticsearch");
-const awsHttpClient = require("http-aws-es");
+// https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-elasticsearch-service/index.html
+const { ElasticsearchServiceClient, AcceptInboundCrossClusterSearchConnectionCommand } = require("@aws-sdk/client-elasticsearch-service");
 
-function createClient(esEndPoint) {
-  console.log(`Connecting to ElasticSearch endpoint: ${esEndPoint}...`);
-  try {
-    const client = new elasticsearch.Client({
-      host: esEndPoint,
-      connectionClass: awsHttpClient,
-      amazonES: {
-        region: AWS.config.region,
-        credentials: new AWS.EnvironmentCredentials('AWS')
-        // credentials: new AWS.Credentials("my-access-key", "my-secret-key"),
-      },
-    });
-    console.log(`Successfully connected to ElasticSearch endpoint!`);
-    return client;
-  } catch (error) {
-    console.log(
-      `Unable to connect to: ${esEndPoint} due to error: ${error}`
-    );
+function createClient() {
+  async () => {
+    const config = {'region': 'ap-southeast-2'};
+    const client = new ElasticsearchServiceClient(config);
+    const command = new AcceptInboundCrossClusterSearchConnectionCommand({});
+    try {
+      const results = await client.send(command);
+      console.log("RESULTS:", results);
+    } catch (err) {
+      console.error(err);
+    }
   }
-}
+};
 
 exports.createClient = createClient;

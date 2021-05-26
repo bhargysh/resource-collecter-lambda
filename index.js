@@ -1,5 +1,4 @@
-const { createClient } = require("./esClient");
-const { indexDocument } = require("./esIndexer");
+const { createClient } = require("./src/esClient");
 
 exports.handler = async (event, context, callback) => {
   const channels = ["C0231DPGQ2W"];
@@ -12,6 +11,7 @@ exports.handler = async (event, context, callback) => {
   const containsCategory = (arr) => arr.length == 3;
   const inputText = event.event.text;
   const inputArray = inputText.split(", ");
+  const endpoint = "https://search-bhargs-cluster-kshcjbujvtfakmol4pnbnrtupi.ap-southeast-2.es.amazonaws.com";
 
   if (isValidatedChannel) {
     if (containsUrl(inputText) && containsCategory(inputArray)) {
@@ -22,12 +22,9 @@ exports.handler = async (event, context, callback) => {
         url: url,
       });
       console.log("ES PAYLOAD", esPayload);
-      const endpoint =
-        "https://search-bhargs-cluster-kshcjbujvtfakmol4pnbnrtupi.ap-southeast-2.es.amazonaws.com";
-      const esClient = createClient(endpoint);
+      createClient(endpoint);
 
       // TODO: asynchronously send data to ES
-      indexDocument(esPayload, esClient);
     } else {
       console.log(
         `Message with id: ${event.event.client_msg_id} does not contain a url or category`
