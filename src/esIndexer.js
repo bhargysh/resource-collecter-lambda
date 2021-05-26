@@ -3,6 +3,25 @@ const AWS = require("aws-sdk");
 
 function indexDocument(document, esClient) {
     console.log("INDEXING TIME", document, esClient);
+  //   const endpoint = new AWS.Endpoint(domain);
+  //   const request = createRequestHeaders();
+  //   const credentials = new AWS.EnvironmentCredentials("AWS");
+  //   const signer = new AWS.Signers.V4(request, "es");
+  //   const client = new AWS.HttpClient();
+  //   signer.addAuthorization(credentials, new Date());
+
+  //   client.handleRequest(request, null, function(response) {
+  //     console.log(response.statusCode + ' ' + response.statusMessage);
+  //     const responseBody = '';
+  //     response.on('data', function (chunk) {
+  //       responseBody += chunk;
+  //     });
+  //     response.on('end', function (chunk) {
+  //       console.log('Response body: ' + responseBody);
+  //     });
+  //   }, function(error) {
+  //     console.log('Error: ' + error);
+  //   });
 }
 
 function createRequestHeaders(domain) {
