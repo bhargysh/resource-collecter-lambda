@@ -11,7 +11,8 @@ exports.handler = async (event, context, callback) => {
   const containsCategory = (arr) => arr.length == 3;
   const inputText = event.event.text;
   const inputArray = inputText.split(", ");
-  const endpoint = "https://search-bhargs-cluster-kshcjbujvtfakmol4pnbnrtupi.ap-southeast-2.es.amazonaws.com";
+  const endpoint =
+    "https://search-bhargs-cluster-kshcjbujvtfakmol4pnbnrtupi.ap-southeast-2.es.amazonaws.com";
 
   if (isValidatedChannel) {
     if (containsUrl(inputText) && containsCategory(inputArray)) {
@@ -22,7 +23,7 @@ exports.handler = async (event, context, callback) => {
         url: url,
       });
       console.log("ES PAYLOAD", esPayload);
-      createClient(endpoint);
+      await createClient(endpoint);
 
       // TODO: asynchronously send data to ES
     } else {
