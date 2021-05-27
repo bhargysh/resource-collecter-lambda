@@ -1,9 +1,10 @@
 const { validateEvent } = require("./src/validator");
+const { indexDocument } = require("./src/esIndexer");
 
 exports.handler = async (event, context, callback) => {
   const payloadForES = validateEvent(event);
 
-  // TODO: send payload to indexer
+  await indexDocument(payloadForES);
 
   const response = {
     challenge: event.challenge,
