@@ -19,7 +19,7 @@ const validateEvent = (slackEvent) => {
         categories: categories.split("/"),
         url: url,
       });
-      console.log("ES PAYLOAD", esPayload);
+      console.log("Payload for ES", esPayload);
       return esPayload;
     } else {
       console.log(
